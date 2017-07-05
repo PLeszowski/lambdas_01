@@ -2,40 +2,53 @@ package com.sda.lambdas.people;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.OptionalDouble;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Created by RENT on 2017-07-04.
  */
 public class PeopleAggregation {
 
-	OptionalDouble getAverageAge(List<Person> people){
+	public OptionalDouble getAverageAge(List<Person> people){
 
 		return people.stream().map(Person::getAge).mapToDouble(Integer::doubleValue).average();
-
 	}
 
-	long getTotalWomen(List<Person> people) {
+	public long getTotalWomen(List<Person> people) {
 
 		return people.stream().filter(person -> person.getGender().equals("female")).count();
-
 	}
 
-	long getTotalMen(List<Person> people) {
+	public long getTotalMen(List<Person> people) {
 
 		return people.stream().filter(person -> person.getGender().equals("male")).count();
 	}
 
-	Person getTheYoungestPerson(List<Person> people){
-
-		//return  people.stream().sorted(new AgeComparator()).findFirst().get();
+	public Person getTheYoungestPerson(List<Person> people){
 
 		return people.stream().min(new AgeComparator()).get();
 	}
 
-	Person getTheOldestPerson(List<Person> people){
+	public Person getTheOldestPerson(List<Person> people){
 
 		return people.stream().max(new AgeComparator()).get();
+	}
+
+	public Map<Integer,Person> aggregateById(List<Person> people){
+
+		return people.stream().collect(Collectors.toMap(Person::getId, Function.identity()));
+		//return people.stream().collect(Collectors.toMap(person -> person.getId(), person -> person));
+//        Map<Integer,Person> aggregatedById = new HashMap<>();
+//
+//        people.forEach(person -> aggregatedById.put(person.getId(),person));
+//
+////        for (Person person : people) {
+////            aggregatedById.put(person.getId(), person);
+////        }
+//        return aggregatedById;
 	}
 }
 

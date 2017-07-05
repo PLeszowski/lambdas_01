@@ -21,7 +21,7 @@ public class Person {
 
 	public String toString(){
 
-		return "eh";
+		return this.name + ", " + super.toString();
 	}
 
 	public int getId() {
